@@ -1,5 +1,0 @@
-// missing table name
-// invalid type string
-$TABLE {
-  hello string
-}
