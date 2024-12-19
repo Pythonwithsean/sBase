@@ -1,7 +1,18 @@
-package cmd
+package main
 
-import "fmt"
+import (
+	"os"
+
+	"github.com/pythonwithsean/sBase/lib"
+)
+
+const VERSION = "0.1-Dev"
 
 func main() {
-	fmt.Println("Testing")
+	if len(os.Args) < 4 {
+		lib.SetLogLevel(lib.WARN)
+		lib.WarnLog("Usage: sBase [host] [port] [username] [password] [database]")
+		os.Exit(1)
+	}
+
 }
