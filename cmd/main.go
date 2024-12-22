@@ -54,6 +54,7 @@ func main() {
 			os.Exit(1)
 		}
 	}
+
 	cmds := map[string]string{}
 	for i := 0; i < len(ARGS); i += 2 {
 		if ok := validate(ARGS[i], i); ok {
@@ -75,6 +76,5 @@ func main() {
 	db_config.SetDBName(cmds["-db"]).SetPassword(cmds["-pass"]).SetPort(cmds["-p"]).SetUsername(cmds["-u"]).SetHostName(cmds["-h"])
 	tcpServer := server.NewTCPServer(cmds["-h"], cmds["-p"])
 	tcpServer.Start()
-
 	// ui.Index()
 }

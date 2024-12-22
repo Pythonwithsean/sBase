@@ -1,0 +1,15 @@
+syntax = "proto3";
+
+package database;
+
+service DatabaseService {
+  rpc ExecuteCommand (CommandRequest) returns (CommandResponse);
+}
+
+message CommandRequest {
+  string command = 1;
+}
+
+message CommandResponse {
+  string result = 1;
+}
