@@ -1,12 +1,13 @@
 package main
 
 import (
+	"fmt"
 	"os"
 	"strings"
 
 	"github.com/pythonwithsean/sBase/config"
 	"github.com/pythonwithsean/sBase/lib"
-	"github.com/pythonwithsean/sBase/ui"
+	"github.com/pythonwithsean/sBase/server"
 )
 
 const VERSION = "v0.1"
@@ -42,12 +43,10 @@ func main() {
 		os.Exit(1)
 	} else if len(ARGS) == 1 {
 		if ARGS[0] == "-v" || ARGS[0] == "--version" {
-			lib.SetLogLevel(lib.WARN)
-			lib.WarnLog("sBase version:", VERSION)
+			fmt.Println("sBase version:", VERSION)
 			os.Exit(0)
 		} else if ARGS[0] == "-h" || ARGS[0] == "--help" {
-			lib.SetLogLevel(lib.WARN)
-			lib.WarnLog("Welcome to sBase Help Page")
+			fmt.Println("Welcome to sBase Help Page")
 			os.Exit(0)
 		} else {
 			lib.SetLogLevel(lib.WARN)
@@ -74,7 +73,8 @@ func main() {
 
 	db_config := config.DB_CONFIG{}
 	db_config.SetDBName(cmds["-db"]).SetPassword(cmds["-pass"]).SetPort(cmds["-p"]).SetUsername(cmds["-u"]).SetHostName(cmds["-h"])
-	db_config.GetDBConfigDetails()
+	tcpServer := server.NewTCPServer(cmds["-h"], cmds["-p"])
+	tcpServer.Start()
 
-	ui.Index()
+	// ui.Index()
 }
