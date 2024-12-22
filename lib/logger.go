@@ -24,7 +24,6 @@ const (
 var log_level LogLevel = 0
 
 func SetLogLevel(level LogLevel) {
-	info_logger.Println("log level set to", level)
 	log_level = level
 }
 

@@ -10,5 +10,13 @@ type DB struct {
 }
 
 func CreateDB(db_config config.DB_CONFIG) {
+	// db := DB{
+	// 	Host:     db_config.GetHostName(),
+	// 	Port:     db_config.GetPort(),
+	// 	Username: db_config.GetUsername(),
+	// 	Password: db_config.GetPassword(),
+	// }
 
+	// tcp := db.Host + ":" + db.Port
+	// Connect to the database
 }

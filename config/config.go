@@ -1,7 +1,12 @@
 package config
 
+import (
+	"fmt"
+)
+
 type DB_CONFIG struct {
 	PORT     string
+	HOSTNAME string
 	USERNAME string
 	password string
 	DB_NAME  string
@@ -41,4 +46,18 @@ func (db *DB_CONFIG) GetDBName() string {
 func (db *DB_CONFIG) SetDBName(dbname string) *DB_CONFIG {
 	db.DB_NAME = dbname
 	return db
+}
+
+func (db *DB_CONFIG) GetHostName() string {
+	return db.HOSTNAME
+}
+
+func (db *DB_CONFIG) SetHostName(hostName string) *DB_CONFIG {
+	db.HOSTNAME = hostName
+	return db
+}
+
+func (db *DB_CONFIG) GetDBConfigDetails() {
+	fmt.Println("DB_CONFIG Details")
+	fmt.Println("PORT:", db.PORT, "HOSTNAME:", db.HOSTNAME, "USERNAME:", db.USERNAME, "PASSWORD:", db.password, "DB_NAME:", db.DB_NAME)
 }

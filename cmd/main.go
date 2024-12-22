@@ -9,7 +9,7 @@ import (
 	"github.com/pythonwithsean/sBase/ui"
 )
 
-const VERSION = "0.1-Dev"
+const VERSION = "v0.1"
 
 func validate(arg string, i int) bool {
 	if arg == "" {
@@ -36,10 +36,24 @@ func validate(arg string, i int) bool {
 
 func main() {
 	ARGS := os.Args[1:]
-	if len(ARGS) != 10 {
+	if len(ARGS) != 10 && len(ARGS) != 1 {
 		lib.SetLogLevel(lib.WARN)
 		lib.WarnLog("Usage: sBase [host] [port] [username] [password] [database]")
 		os.Exit(1)
+	} else if len(ARGS) == 1 {
+		if ARGS[0] == "-v" || ARGS[0] == "--version" {
+			lib.SetLogLevel(lib.WARN)
+			lib.WarnLog("sBase version:", VERSION)
+			os.Exit(0)
+		} else if ARGS[0] == "-h" || ARGS[0] == "--help" {
+			lib.SetLogLevel(lib.WARN)
+			lib.WarnLog("Welcome to sBase Help Page")
+			os.Exit(0)
+		} else {
+			lib.SetLogLevel(lib.WARN)
+			lib.WarnLog("Usage: sBase [host] [port] [username] [password] [database]")
+			os.Exit(1)
+		}
 	}
 	cmds := map[string]string{}
 	for i := 0; i < len(ARGS); i += 2 {
@@ -59,7 +73,8 @@ func main() {
 	}
 
 	db_config := config.DB_CONFIG{}
-	db_config.SetDBName(cmds["-db"]).SetPassword(cmds["-pass"]).SetPort(cmds["-p"]).SetUsername(cmds["-u"])
+	db_config.SetDBName(cmds["-db"]).SetPassword(cmds["-pass"]).SetPort(cmds["-p"]).SetUsername(cmds["-u"]).SetHostName(cmds["-h"])
+	db_config.GetDBConfigDetails()
 
 	ui.Index()
 }
