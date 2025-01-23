@@ -1,5 +1,5 @@
 build: 
-	@g++ ./cmd/main.cpp -o out
+	@g++ ./src/main.cpp -o sBase
 
 run: 
-	@g++ ./cmd/main.cpp -o out && ./out -h localhost -p 8080 -u pythonwithsean -p idk123 -db test
+	@g++ ./src/main.cpp -o sBase && ./out -h
