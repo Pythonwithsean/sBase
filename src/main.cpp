@@ -15,8 +15,8 @@ int main(int argc, char *argv[])
 	if (argc != 2 && argc != ARGS_LENGTH)
 	{
 		cout << "[Error] Must Enter all args to connect to database\n"
-			 << "-h <hostname> -p <port> -u <username> -p <password> -db <database>\n " << "Type -h for help \n"
-			 << "\n ";
+		     << "-h <hostname> -p <port> -u <username> -p <password> -db <database>\n " << "Type -h for help \n"
+		     << "\n ";
 		return 1;
 	}
 	else if (argc == 2 && std::strcmp(argv[1], "-h") == 0)
