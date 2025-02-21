@@ -17,6 +17,11 @@ void printVersion()
 		  << "Written by Sean Idisi\n";
 }
 
+void printPrompt()
+{
+	std::cout << "sBase> ";
+}
+
 void parse(std::string input)
 {
 }
@@ -56,7 +61,7 @@ int main(int argc, char *argv[])
 	while (true)
 	{
 		std::string input;
-		std::cout << "sBase> ";
+		printPrompt();
 		std::getline(std::cin, input);
 		std::cout << input << "\n";
 	}
