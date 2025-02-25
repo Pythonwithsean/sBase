@@ -51,16 +51,32 @@ int main(int argc, char *argv[])
 			std::cout << "Bye Bye\n";
 			break;
 		}
-		else if (input == ".help")
-		{
-			printHelp();
-		}
-		else if (input == ".version")
+		else if (input == "version")
 		{
 			printVersion();
 		}
+		else if (input == "clear")
+		{
+			system("clear");
+		}
+		else if (input == "logo")
+		{
+			std::cout << R"(
+			______________________________________________                       
+			|  _______  ___________  ___________  ______  |
+			| /  _  \  \/  /\__  \  \/ /\__  \  \/  __  \ |  
+			| /   _____/\______   \_____    ______ ____  |
+			| \_____  \  |    |  _/\__  \  /  ___// __ \ |
+			| /        \ |    |   \ / __ \_\___ \\  ___/ |
+			| /_______  / |______  /(____  /____  >\___  |
+			|         \/         \/      \/     \/     \/
+			|___________________________________________ |
+			)"
+					  << std::endl;
+		}
 		else
 		{
+
 			Tokenizer tokenizer;
 			tokenizer.tokenize(input);
 		}
