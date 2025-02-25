@@ -1,4 +1,4 @@
-make: 
-	@g++ ./core/src/main.cpp -o ./build/Sbase
-run: 
+b: 
+	@g++ -std=c++23 ./core/src/*.cpp -Wall -I./include -o ./build/Sbase
+r: 
 	@./build/Sbase

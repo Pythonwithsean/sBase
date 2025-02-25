@@ -1,20 +1,21 @@
 #include <iostream>
 #include <cstring>
 #include <string>
+#include <Tokenizer.h>
 
 void printHelp()
 {
 	std::cout << "sBase - A simple Database\n"
-		  << "Usage: sBase [options]\n"
-		  << "Options:\n"
-		  << "  -h, --help\t\tPrint this help message and exit\n"
-		  << "  -v, --version\t\tPrint version information and exit\n";
+			  << "Usage: sBase [options]\n"
+			  << "Options:\n"
+			  << "  -h, --help\t\tPrint this help message and exit\n"
+			  << "  -v, --version\t\tPrint version information and exit\n";
 }
 
 void printVersion()
 {
 	std::cout << "sBase 0.1.0\n"
-		  << "Written by Sean Idisi\n";
+			  << "Written by Sean Idisi\n";
 }
 
 void printPrompt()
@@ -22,28 +23,8 @@ void printPrompt()
 	std::cout << "sBase> ";
 }
 
-void parse(std::string input)
-{
-}
-
 int main(int argc, char *argv[])
 {
-	if (argc < 2)
-	{
-		std::cerr << "Usage: " << argv[0] << " <name>" << std::endl;
-		return 1;
-	}
-
-	if (std::strcmp(argv[1], "-h") == 0 || std::strcmp(argv[1], "--help") == 0)
-	{
-		printHelp();
-		return 0;
-	}
-	else if (std::strcmp(argv[1], "-v") == 0 || std::strcmp(argv[1], "--version") == 0)
-	{
-		printVersion();
-		return 0;
-	}
 
 	printHelp();
 	std::cout << R"(
@@ -57,13 +38,32 @@ int main(int argc, char *argv[])
 			|         \/         \/      \/     \/     \/
 			|___________________________________________ |
 			)"
-		  << std::endl;
+			  << std::endl;
 	while (true)
 	{
 		std::string input;
 		printPrompt();
 		std::getline(std::cin, input);
-		std::cout << input << "\n";
+		// trim input
+		if (input == "exit")
+		{
+			std::cout << "See you Next Time! :)\n";
+			std::cout << "Bye Bye\n";
+			break;
+		}
+		else if (input == ".help")
+		{
+			printHelp();
+		}
+		else if (input == ".version")
+		{
+			printVersion();
+		}
+		else
+		{
+			Tokenizer tokenizer;
+			tokenizer.tokenize(input);
+		}
 	}
 
 	return 0;

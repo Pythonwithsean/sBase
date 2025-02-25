@@ -1,6 +1,6 @@
 # sBase
 
-sBase is a simple command-line database application with a REPL (Read-Eval-Print Loop) interface.
+sBase is a simple command-line SaneQL database application with a REPL (Read-Eval-Print Loop) interface.
 
 ## Features
 
