@@ -51,6 +51,10 @@ int main(int argc, char *argv[])
 			std::cout << "Bye Bye\n";
 			break;
 		}
+		else if (input == "help")
+		{
+			printHelp();
+		}
 		else if (input == "version")
 		{
 			printVersion();
@@ -76,7 +80,6 @@ int main(int argc, char *argv[])
 		}
 		else
 		{
-
 			Tokenizer tokenizer;
 			tokenizer.tokenize(input);
 		}

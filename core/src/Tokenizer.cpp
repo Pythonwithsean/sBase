@@ -1,6 +1,8 @@
 #include <iostream>
 #include <string>
 #include "Tokenizer.h"
+#include <vector>
+#include <algorithm>
 
 Tokenizer::Tokenizer() : currentLine(0),
 						 currentChar(0),
@@ -8,22 +10,22 @@ Tokenizer::Tokenizer() : currentLine(0),
 {
 }
 
-int Tokenizer::getCurrentLine()
+int Tokenizer::getCurrentLine() const
 {
 	return currentLine;
 }
 
-int Tokenizer::getCurrentChar()
+int Tokenizer::getCurrentChar() const
 {
 	return currentChar;
 }
 
-int Tokenizer::getCurrentToken()
+int Tokenizer::getCurrentToken() const
 {
 	return currentToken;
 }
 
-void Tokenizer::tokenize(std::string input)
+void Tokenizer::tokenize(std::string &input)
 {
 
 	if (input.empty())
@@ -31,11 +33,5 @@ void Tokenizer::tokenize(std::string input)
 		std::cout << "No input to tokenize\n";
 		return;
 	}
-	else if (input.at(0) != '.')
-	{
-		std::cout << input << "is an Invalid input\n";
-		return;
-	}
-
-	std::cout << "Tokenizing input: " << input << "\n";
+	std::cout << input << "\n";
 }

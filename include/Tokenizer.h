@@ -12,10 +12,10 @@ private:
 
 public:
 	Tokenizer();
-	int getCurrentLine();
-	int getCurrentChar();
-	int getCurrentToken();
-	void tokenize(std::string input);
+	int getCurrentLine() const;
+	int getCurrentChar() const;
+	int getCurrentToken() const;
+	void tokenize(std::string &input);
 };
 
 #endif // Tokenizer_H
