@@ -4,4 +4,5 @@ run:
 	@./build/Sbase
 clean: 
 	@rm -rf ./build/*
+	@rm -rf ./config/*
 	@echo "Cleaned"

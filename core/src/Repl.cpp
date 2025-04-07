@@ -2,6 +2,8 @@
 #include <cstring>
 #include <string>
 #include <Tokenizer.h>
+#include <ostream>
+#include <vector>
 
 void printHelp()
 {
@@ -23,9 +25,27 @@ void printPrompt()
 	std::cout << "sBase> ";
 }
 
+void createConfigFolder()
+{
+	std::vector<std::string> commands = {
+		"mkdir -p config",
+		"mkdir -p config/db",
+		"mkdir -p config/db/backup",
+		"touch config/db/config.db",
+		"touch config/db/config.db.backup",
+		"touch config/db/db.json"};
+	for (auto &command : commands)
+	{
+		if (system(command.c_str()) != 0)
+		{
+			std::cerr << "Error creating config folder.\n";
+		}
+	}
+}
+
 int main(int argc, char *argv[])
 {
-
+	createConfigFolder();
 	printHelp();
 	std::cout << R"(
 			______________________________________________                       

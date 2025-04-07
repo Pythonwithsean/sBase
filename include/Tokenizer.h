@@ -5,16 +5,9 @@
 
 class Tokenizer
 {
-private:
-	int currentLine;
-	int currentChar;
-	int currentToken;
 
 public:
 	Tokenizer();
-	int getCurrentLine() const;
-	int getCurrentChar() const;
-	int getCurrentToken() const;
 	void tokenize(std::string &input);
 };
 

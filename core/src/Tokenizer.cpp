@@ -4,34 +4,32 @@
 #include <vector>
 #include <algorithm>
 
-Tokenizer::Tokenizer() : currentLine(0),
-						 currentChar(0),
-						 currentToken(0)
+using std::cout;
+
+Tokenizer::Tokenizer()
 {
 }
-
-int Tokenizer::getCurrentLine() const
-{
-	return currentLine;
-}
-
-int Tokenizer::getCurrentChar() const
-{
-	return currentChar;
-}
-
-int Tokenizer::getCurrentToken() const
-{
-	return currentToken;
-}
-
 void Tokenizer::tokenize(std::string &input)
 {
-
 	if (input.empty())
 	{
 		std::cout << "No input to tokenize\n";
 		return;
 	}
-	std::cout << input << "\n";
+	// split the input string into tokens
+	std::vector<std::string> tokens;
+	std::string delimiter = " ";
+	size_t pos = 0;
+	std::string token;
+	while ((pos = input.find(delimiter)) != std::string::npos)
+	{
+		token = input.substr(0, pos);
+		tokens.push_back(token);
+		input.erase(0, pos + 1);
+	}
+	if (input[input.length() - 1] == ';')
+	{
+		tokens.push_back(input.substr(0, input.length() - 1));
+		tokens.push_back(";");
+	}
 }
