@@ -1,3 +1,38 @@
+/*
+ * TokenType Breakdown for SQL-like Tokenizer
+ *
+ * Example SQL Statement:
+ *   CREATE TABLE students (id INT, name TEXT);
+ *
+ * Tokenized Output:
+ *
+ * ┌────────────┬────────────────┐
+ * │   Token    │   TokenType    │
+ * ├────────────┼────────────────┤
+ * │ CREATE     │ KEYWORD        │
+ * │ TABLE      │ KEYWORD        │
+ * │ students   │ IDENTIFIER     │
+ * │ (          │ SYMBOL         │
+ * │ id         │ IDENTIFIER     │
+ * │ INT        │ KEYWORD        │
+ * │ ,          │ SYMBOL         │
+ * │ name       │ IDENTIFIER     │
+ * │ TEXT       │ KEYWORD        │
+ * │ )          │ SYMBOL         │
+ * │ ;          │ SYMBOL         │
+ * └────────────┴────────────────┘
+ *
+ * TokenType meanings:
+ * - IDENTIFIER: user-defined names (e.g. table, column, or database names)
+ * - KEYWORD: reserved language words (e.g. CREATE, SELECT, DELETE)
+ * - OPERATOR: logical or arithmetic operators (e.g. =, >, <, AND)
+ * - STRING_LITERAL: quoted strings (e.g. 'hello')
+ * - NUMBER_LITERAL: numeric values (e.g. 123, 42.5)
+ * - COMMENT: comments (e.g. -- this is a comment)
+ * - WHITESPACE: spaces, tabs, newlines (optional to track)
+ * - SYMBOL: punctuation and grammar (e.g. (, ), ;, ,)
+ */
+
 #include <iostream>
 #include <string>
 #include "Tokenizer.h"
