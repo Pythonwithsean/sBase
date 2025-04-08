@@ -1,7 +1,7 @@
-#include <string>
-#include <iostream>
 #ifndef Tokenizer_H
 #define Tokenizer_H
+#include <string>
+#include <iostream>
 
 class Tokenizer
 {

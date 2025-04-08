@@ -3,6 +3,7 @@
 #include "Tokenizer.h"
 #include <vector>
 #include <algorithm>
+#include "Parser.h"
 
 using std::cout;
 
@@ -32,4 +33,10 @@ void Tokenizer::tokenize(std::string &input)
 		tokens.push_back(input.substr(0, input.length() - 1));
 		tokens.push_back(";");
 	}
+	else
+	{
+		tokens.push_back(input);
+	}
+	Parser parser(tokens);
+	parser.parse();
 }

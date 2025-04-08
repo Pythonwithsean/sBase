@@ -1,5 +1,5 @@
 compile: 
-	@g++ -std=c++23 ./core/src/*.cpp -Wall -Wextra -g -O1 -I./include -o ./build/Sbase
+	@g++ -std=c++23 ./core/src/*.cpp ./core/utils/*.cpp -Wall -Wextra -g -O1 -I./include -o ./build/Sbase
 run: 
 	@./build/Sbase
 clean: 
