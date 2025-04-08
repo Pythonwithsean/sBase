@@ -7,6 +7,29 @@
 
 using std::cout;
 
+enum class TokenType
+{
+	IDENTIFIER,
+	KEYWORD,
+	OPERATOR,
+	STRING_LITERAL,
+	NUMBER_LITERAL,
+	COMMENT,
+	WHITESPACE,
+	SYMBOL
+};
+
+struct Token
+{
+	TokenType type;
+	std::string value;
+	Token(TokenType t, const std::string &v)
+	{
+		this->type = t;
+		this->value = v;
+	}
+};
+
 Tokenizer::Tokenizer()
 {
 }

@@ -12,7 +12,6 @@ Parser::Parser(std::vector<std::string> &tokens)
 
 void Parser::parse()
 {
-	// Implement parsing logic here
 	if (tokens[tokens.size() - 1] != ";")
 	{
 		std::cerr << "Error: Missing semicolon at the end of the statement." << std::endl;
@@ -21,7 +20,6 @@ void Parser::parse()
 	tokens.pop_back();
 	std::string firstCommand = toLowerCase(tokens[0]);
 	// Create a map of commands to their corresponding functions
-
 	if (firstCommand == "create")
 	{
 	}
