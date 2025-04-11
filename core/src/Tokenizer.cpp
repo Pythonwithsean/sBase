@@ -35,11 +35,11 @@
 
 #include <iostream>
 #include <string>
-#include "Tokenizer.h"
 #include <vector>
 #include <algorithm>
-#include "Parser.h"
 #include <unordered_map>
+#include "Tokenizer.h"
+#include "Parser.h"
 
 using std::cout;
 
