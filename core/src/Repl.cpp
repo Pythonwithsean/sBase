@@ -34,6 +34,7 @@ void createConfigFolder()
 		"touch config/db/config.db",
 		"touch config/db/config.db.backup",
 		"touch config/db/db.json"};
+
 	for (auto &command : commands)
 	{
 		if (system(command.c_str()) != 0)

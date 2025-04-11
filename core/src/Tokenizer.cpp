@@ -39,62 +39,60 @@
 #include <vector>
 #include <algorithm>
 #include "Parser.h"
+#include <unordered_map>
 
 using std::cout;
 
-enum class TokenType
-{
-	IDENTIFIER,
-	KEYWORD,
-	OPERATOR,
-	STRING_LITERAL,
-	NUMBER_LITERAL,
-	COMMENT,
-	WHITESPACE,
-	SYMBOL
+std::unordered_map<std::string, TokenType> key_word_mapper = {
+	{"CREATE", TokenType::KEYWORD},
+	{"TABLE", TokenType::KEYWORD},
+	{"INSERT", TokenType::KEYWORD},
+	{"SELECT", TokenType::KEYWORD},
+	{"DELETE", TokenType::KEYWORD},
+	{"UPDATE", TokenType::KEYWORD},
+	{"FROM", TokenType::KEYWORD},
+	{"WHERE", TokenType::KEYWORD},
+	{"INTO", TokenType::KEYWORD},
+	{"VALUES", TokenType::KEYWORD},
 };
 
-struct Token
+Token createToken(const std::string &value)
 {
-	TokenType type;
-	std::string value;
-	Token(TokenType t, const std::string &v)
+	if (key_word_mapper.find(value) != key_word_mapper.end())
 	{
-		this->type = t;
-		this->value = v;
+		return Token(TokenType::KEYWORD, value);
 	}
-};
-
-Tokenizer::Tokenizer()
-{
+	else
+	{
+		return Token(TokenType::IDENTIFIER, value);
+	}
 }
+
 void Tokenizer::tokenize(std::string &input)
 {
 	if (input.empty())
 	{
-		std::cout << "No input to tokenize\n";
 		return;
 	}
-	// split the input string into tokens
-	std::vector<std::string> tokens;
+	std::vector<Token> tokens;
 	std::string delimiter = " ";
 	size_t pos = 0;
 	std::string token;
 	while ((pos = input.find(delimiter)) != std::string::npos)
 	{
 		token = input.substr(0, pos);
-		tokens.push_back(token);
+		tokens.push_back(createToken(token));
 		input.erase(0, pos + 1);
 	}
 	if (input[input.length() - 1] == ';')
 	{
-		tokens.push_back(input.substr(0, input.length() - 1));
-		tokens.push_back(";");
+		tokens.push_back(createToken(input.substr(0, input.length() - 1)));
+		tokens.push_back(Token(TokenType::SYMBOL, ";"));
+		Parser parser(tokens);
+		parser.parse();
 	}
 	else
 	{
-		tokens.push_back(input);
+		cout << "Invalid Syntax please add ; at the end of each statement" << "\n";
 	}
-	Parser parser(tokens);
-	parser.parse();
 }

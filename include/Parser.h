@@ -4,10 +4,10 @@
 class Parser
 {
 private:
-	std::vector<std::string> tokens;
+	std::vector<Token> tokens;
 
 public:
-	Parser(std::vector<std::string> &tokens);
+	Parser(std::vector<Token> &tokens);
 	void parse();
 	void printParsedData() const;
 };
