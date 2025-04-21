@@ -39,26 +39,27 @@
 #include <algorithm>
 #include <unordered_map>
 #include "Tokenizer.h"
+#include "Helper.h"
 #include "Parser.h"
 
 using std::cout;
 
 std::unordered_map<std::string, TokenType> key_word_mapper = {
-	{"CREATE", TokenType::KEYWORD},
-	{"TABLE", TokenType::KEYWORD},
-	{"INSERT", TokenType::KEYWORD},
-	{"SELECT", TokenType::KEYWORD},
-	{"DELETE", TokenType::KEYWORD},
-	{"UPDATE", TokenType::KEYWORD},
-	{"FROM", TokenType::KEYWORD},
-	{"WHERE", TokenType::KEYWORD},
-	{"INTO", TokenType::KEYWORD},
-	{"VALUES", TokenType::KEYWORD},
+	{"create", TokenType::KEYWORD},
+	{"table", TokenType::KEYWORD},
+	{"insert", TokenType::KEYWORD},
+	{"select", TokenType::KEYWORD},
+	{"delete", TokenType::KEYWORD},
+	{"update", TokenType::KEYWORD},
+	{"from", TokenType::KEYWORD},
+	{"where", TokenType::KEYWORD},
+	{"into", TokenType::KEYWORD},
+	{"values", TokenType::KEYWORD},
 };
 
 Token createToken(const std::string &value)
 {
-	if (key_word_mapper.find(value) != key_word_mapper.end())
+	if (key_word_mapper.find(toLowerCase(value)) != key_word_mapper.end())
 	{
 		return Token(TokenType::KEYWORD, value);
 	}
@@ -74,16 +75,19 @@ void Tokenizer::tokenize(std::string &input)
 	{
 		return;
 	}
+
 	std::vector<Token> tokens;
 	std::string delimiter = " ";
 	size_t pos = 0;
 	std::string token;
+
 	while ((pos = input.find(delimiter)) != std::string::npos)
 	{
 		token = input.substr(0, pos);
 		tokens.push_back(createToken(token));
 		input.erase(0, pos + 1);
 	}
+
 	if (input[input.length() - 1] == ';')
 	{
 		tokens.push_back(createToken(input.substr(0, input.length() - 1)));
@@ -91,6 +95,7 @@ void Tokenizer::tokenize(std::string &input)
 		Parser parser(tokens);
 		parser.parse();
 	}
+
 	else
 	{
 		cout << "Invalid Syntax please add ; at the end of each statement" << "\n";

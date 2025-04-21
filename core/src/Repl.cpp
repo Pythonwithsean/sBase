@@ -48,18 +48,6 @@ int main(int argc, char *argv[])
 {
 	createConfigFolder();
 	printHelp();
-	// std::cout << R"(
-	// 		______________________________________________
-	// 		|  _______  ___________  ___________  ______  |
-	// 		| /  _  \  \/  /\__  \  \/ /\__  \  \/  __  \ |
-	// 		| /   _____/\______   \_____    ______ ____  |
-	// 		| \_____  \  |    |  _/\__  \  /  ___// __ \ |
-	// 		| /        \ |    |   \ / __ \_\___ \\  ___/ |
-	// 		| /_______  / |______  /(____  /____  >\___  |
-	// 		|         \/         \/      \/     \/     \/
-	// 		|___________________________________________ |
-	// 		)"
-	// 		  << std::endl;
 	while (true)
 	{
 		std::string input;
@@ -81,7 +69,12 @@ int main(int argc, char *argv[])
 		}
 		else if (input == "clear")
 		{
-			system("clear");
+			int valid = system("clear");
+			if (valid != 0)
+			{
+				std::cout << "Error with the clear" << std::endl;
+				return 1;
+			}
 		}
 		else if (input == "logo")
 		{

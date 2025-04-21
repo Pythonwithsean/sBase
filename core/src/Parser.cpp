@@ -11,26 +11,61 @@ using std::cout;
 Parser::Parser(std::vector<Token> &tokens)
 {
 	this->tokens = tokens;
+	this->currentTokenPointer = 0;
+	this->currentToken = &this->tokens[this->currentTokenPointer];
 }
-void Parser::parse()
+
+Token Parser::getCurrent() const
 {
+	return *this->currentToken;
+}
+
+void Parser::next()
+{
+	this->currentTokenPointer += 1;
+	if (currentTokenPointer < tokens.size() - 1)
+		this->currentToken = &this->tokens[this->currentTokenPointer];
+	else
+		this->currentTokenPointer = tokens.size() - 1;
+	std::cout << "Current Pointer is at the end and can't go any further" << std::endl;
+}
+
+void Parser::previous()
+{
+	this->currentTokenPointer -= 1;
+	if (this->currentTokenPointer >= 0)
+		this->currentToken = &this->tokens[this->currentTokenPointer];
+	else
+		this->currentTokenPointer = 0;
+	std::cout << "Current Pointer is at the beginning and can't go any further" << std::endl;
+}
+
+void Parser::printParsedData() const {
+};
+void Parser::parse() const
+{
+	// std::cout << "Parsing Tokens..." << std::endl;
+	// std::cout << currentToken->toString() << std::endl;
 	for (auto &token : tokens)
 	{
-		if (token.type == TokenType::KEYWORD)
-		{
-			cout << "Parsing keyword: " << token.value << "\n";
-		}
-		else if (token.type == TokenType::IDENTIFIER)
-		{
-			cout << "Parsing identifier: " << token.value << "\n";
-		}
-		else if (token.type == TokenType::SYMBOL)
-		{
-			cout << "Parsing symbol: " << token.value << "\n";
-		}
-		else
-		{
-			cout << "Unknown token type\n";
-		}
+		std::cout << "Token Value: " << token.value << " Token Type: " << std::to_string(static_cast<int>(token.type)) << std::endl;
 	}
+};
+
+Token Parser::getPrevious() const
+{
+	if (currentTokenPointer - 1 >= 0)
+	{
+		return (this->tokens[this->currentTokenPointer - 1]);
+	}
+	return this->tokens[this->currentTokenPointer];
+};
+
+Token Parser::getNext() const
+{
+	if (currentTokenPointer + 1 < this->tokens.size())
+	{
+		return (this->tokens[this->currentTokenPointer + 1]);
+	}
+	return this->tokens[this->currentTokenPointer];
 };
