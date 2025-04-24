@@ -44,7 +44,7 @@
 
 using std::cout;
 
-std::unordered_map<std::string, TokenType> key_word_mapper = {
+std::unordered_map<std::string, TokenType> keywordMap = {
 	{"create", TokenType::KEYWORD},
 	{"table", TokenType::KEYWORD},
 	{"insert", TokenType::KEYWORD},
@@ -57,47 +57,56 @@ std::unordered_map<std::string, TokenType> key_word_mapper = {
 	{"values", TokenType::KEYWORD},
 };
 
-Token createToken(const std::string &value)
+std::unordered_map<char, TokenType> symbolMap = {
+	{'(', TokenType::SYMBOL},
+	{')', TokenType::SYMBOL},
+	{',', TokenType::SYMBOL},
+	{';', TokenType::SYMBOL},
+};
+
+C_TYPE Tokenizer::readChar(char &c)
 {
-	if (key_word_mapper.find(toLowerCase(value)) != key_word_mapper.end())
+	if (c == ' ' || c == '\t' || c == '\n')
 	{
-		return Token(TokenType::KEYWORD, value);
+		return C_TYPE::SPACE;
 	}
-	else
+	else if (isalpha(c))
 	{
-		return Token(TokenType::IDENTIFIER, value);
+		return C_TYPE::CHAR;
+	}
+	else if (isdigit(c))
+	{
+		return C_TYPE::NUM;
 	}
 }
 
 void Tokenizer::tokenize(std::string &input)
 {
-	if (input.empty())
+	while (this->position < input.size())
 	{
-		return;
+		C_TYPE t = readChar(input[position]);
+		// handle string
+		if (C_TYPE::CHAR == t)
+		{
+			currentStringValue += input[position];
+			this->position++;
+		}
+		// handle num could be 5 or 55 or 555
+		else if (C_TYPE::NUM == t)
+		{
+		}
+		// handle space
+		else if (C_TYPE::SPACE == t)
+		{
+			if (!currentStringValue.empty())
+			{
+				tokens.push_back(Token(keywordMap[toLowerCase(currentStringValue)], currentStringValue));
+			}
+			break;
+		}
 	}
-
-	std::vector<Token> tokens;
-	std::string delimiter = " ";
-	size_t pos = 0;
-	std::string token;
-
-	while ((pos = input.find(delimiter)) != std::string::npos)
+	for (auto &token : tokens)
 	{
-		token = input.substr(0, pos);
-		tokens.push_back(createToken(token));
-		input.erase(0, pos + 1);
-	}
-
-	if (input[input.length() - 1] == ';')
-	{
-		tokens.push_back(createToken(input.substr(0, input.length() - 1)));
-		tokens.push_back(Token(TokenType::SYMBOL, ";"));
-		Parser parser(tokens);
-		parser.parse();
-	}
-
-	else
-	{
-		cout << "Invalid Syntax please add ; at the end of each statement" << "\n";
+		std::cout << token.toString() << std::endl;
 	}
 }

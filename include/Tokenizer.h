@@ -1,5 +1,6 @@
 #ifndef Tokenizer_H
 #define Tokenizer_H
+#include <vector>
 
 enum class TokenType
 {
@@ -11,6 +12,13 @@ enum class TokenType
 	COMMENT,
 	WHITESPACE,
 	SYMBOL
+};
+
+enum class C_TYPE
+{
+	CHAR,
+	NUM,
+	SPACE
 };
 
 struct Token
@@ -26,8 +34,15 @@ struct Token
 
 class Tokenizer
 {
+private:
+	unsigned long int position;
+	std::string currentStringValue;
+	std::vector<Token> tokens;
+
 public:
+	Tokenizer() : position(0) {}
 	void tokenize(std::string &input);
+	C_TYPE readChar(char &c);
 };
 
 #endif // Tokenizer_H
