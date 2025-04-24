@@ -25,63 +25,65 @@ void printPrompt()
 	std::cout << "sBase> ";
 }
 
-void createConfigFolder()
+enum class CommandType
 {
-	std::vector<std::string> commands = {
-		"mkdir -p config",
-		"mkdir -p config/db",
-		"mkdir -p config/db/backup",
-		"touch config/db/config.db",
-		"touch config/db/config.db.backup",
-		"touch config/db/db.json"};
+	EXIT,
+	HELP,
+	VERSION,
+	CLEAR,
+	LOGO,
+	UNKNOWN
+};
 
-	for (auto &command : commands)
-	{
-		if (system(command.c_str()) != 0)
-		{
-			std::cerr << "Error creating config folder.\n";
-		}
-	}
+CommandType inputToCommand(std::string &input)
+{
+	if (input == "exit")
+		return CommandType::EXIT;
+	else if (input == "help")
+		return CommandType::HELP;
+	else if (input == "version")
+		return CommandType::VERSION;
+	else if (input == "clear")
+		return CommandType::CLEAR;
+	else if (input == "logo")
+		return CommandType::LOGO;
+	return CommandType::UNKNOWN;
 }
 
 int main(int argc, char *argv[])
 {
-	createConfigFolder();
 	printHelp();
-	while (true)
+	bool RUN = true;
+	while (RUN)
 	{
 		std::string input;
 		printPrompt();
 		std::getline(std::cin, input);
-		// trim input
-		if (input == "exit")
+		CommandType command = inputToCommand(input);
+		switch (command)
 		{
+		case CommandType::EXIT:
 			std::cout << "See you Next Time! :)\n";
+			RUN = false;
 			break;
-		}
-		else if (input == "help")
-		{
+		case CommandType::HELP:
 			printHelp();
-		}
-		else if (input == "version")
-		{
+			break;
+		case CommandType::VERSION:
 			printVersion();
-		}
-		else if (input == "clear")
-		{
-			int valid = system("clear");
-			if (valid != 0)
+			break;
+		case CommandType::CLEAR:
+			if (system("clear") != 0)
 			{
 				std::cout << "Error with the clear" << std::endl;
 				return 1;
 			}
-		}
-		else if (input == "logo")
-		{
+			break;
+		case CommandType::LOGO:
 			std::cout << R"(
-			______________________________________________                       
+			______________________________________________
 			|  _______  ___________  ___________  ______  |
-			| /  _  \  \/  /\__  \  \/ /\__  \  \/  __  \ |  
+			| /  _  \  \/  /\__  \  \/ /\__  \  \/  __  \ |
 			| /   _____/\______   \_____    ______ ____  |
 			| \_____  \  |    |  _/\__  \  /  ___// __ \ |
 			| /        \ |    |   \ / __ \_\___ \\  ___/ |
@@ -90,13 +92,12 @@ int main(int argc, char *argv[])
 			|___________________________________________ |
 			)"
 					  << std::endl;
-		}
-		else
-		{
+			break;
+		case CommandType::UNKNOWN:
 			Tokenizer tokenizer;
 			tokenizer.tokenize(input);
+			break;
 		}
 	}
-
 	return 0;
 }
