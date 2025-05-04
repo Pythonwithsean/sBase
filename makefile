@@ -1,16 +1,19 @@
 name := "Sean"
+sources := $(wildcard ./core/src/*.cpp ./core/utils/*.cpp)
+objects := foo.o soo.o
 
-.PHONY: build
+.PHONY: build run clean
+.SILENT:
 
 build: 
-	@g++ -std=c++23 ./core/src/*.cpp ./core/utils/*.cpp -g -O1 -I./include -o ./build/Sbase
+	g++ -std=c++23 $(sources) -g -O1 -I./include -o ./build/Sbase
 
 run: 
-	@./build/Sbase
+	./build/Sbase
 clean: 
-	@rm -rf ./build/*
-	@rm -rf ./config/*
-	@echo "Cleaned"
+	rm -rf ./build/*
+	rm -rf ./config/*
+	echo "Cleaned"
 
-test: ./core/src/DB.cpp
-	@echo Hello $(name) $?
+$(objects): ./core/src/DB.cpp
+	echo Hello $(name) $?
