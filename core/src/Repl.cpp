@@ -22,7 +22,7 @@ void printVersion()
 
 void printPrompt()
 {
-	std::cout << "sBase> ";
+	std::cout << "sBase-> ";
 }
 
 enum class CommandType
@@ -37,22 +37,22 @@ enum class CommandType
 
 CommandType inputToCommand(std::string &input)
 {
-	if (input == "exit")
+	if (input == ".exit")
 		return CommandType::EXIT;
-	else if (input == "help")
+	else if (input == ".help")
 		return CommandType::HELP;
-	else if (input == "version")
+	else if (input == ".version")
 		return CommandType::VERSION;
-	else if (input == "clear")
+	else if (input == ".clear")
 		return CommandType::CLEAR;
-	else if (input == "logo")
+	else if (input == ".logo")
 		return CommandType::LOGO;
 	return CommandType::UNKNOWN;
 }
 
 int main(int argc, char *argv[])
 {
-	printHelp();
+	// printHelp();
 	bool RUN = true;
 	while (RUN)
 	{

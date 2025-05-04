@@ -78,35 +78,61 @@ C_TYPE Tokenizer::readChar(char &c)
 	{
 		return C_TYPE::NUM;
 	}
+	else if (symbolMap.count(c) > 0)
+	{
+		return C_TYPE::SYMBOL;
+	}
 }
 
 void Tokenizer::tokenize(std::string &input)
 {
-	while (this->position < input.size())
-	{
-		C_TYPE t = readChar(input[position]);
-		// handle string
-		if (C_TYPE::CHAR == t)
-		{
-			currentStringValue += input[position];
-			this->position++;
-		}
-		// handle num could be 5 or 55 or 555
-		else if (C_TYPE::NUM == t)
-		{
-		}
-		// handle space
-		else if (C_TYPE::SPACE == t)
-		{
-			if (!currentStringValue.empty())
-			{
-				tokens.push_back(Token(keywordMap[toLowerCase(currentStringValue)], currentStringValue));
-			}
-			break;
-		}
-	}
-	for (auto &token : tokens)
-	{
-		std::cout << token.toString() << std::endl;
-	}
+	// while (this->position < input.size())
+	// {
+	// 	char currentChar = input[position];
+	// 	C_TYPE t = readChar(currentChar);
+	// 	// handle string
+	// 	if (C_TYPE::CHAR == t)
+	// 	{
+	// 		currentStringValue += input[position];
+	// 		this->position++;
+	// 	}
+	// 	// handle num could be 5 or 55 or 555
+	// 	else if (C_TYPE::NUM == t)
+	// 	{
+	// 	}
+	// 	else if (C_TYPE::SYMBOL == t)
+	// 	{
+	// 		if (currentChar == ';')
+	// 		{
+	// 			if (!currentStringValue.empty() && keywordMap.find(currentStringValue) == keywordMap.end())
+	// 			{
+	// 				tokens.push_back(Token(TokenType::IDENTIFIER, currentStringValue));
+	// 				currentStringValue.clear();
+	// 			}
+	// 			currentStringValue += currentChar;
+	// 			tokens.push_back(Token(TokenType::SYMBOL, currentStringValue));
+	// 			currentStringValue.clear();
+	// 			break;
+	// 		}
+	// 		currentStringValue += currentChar;
+	// 		tokens.push_back(Token(TokenType::SYMBOL, currentStringValue));
+	// 		currentStringValue.clear();
+	// 		this->position++;
+	// 	}
+	// 	// handle space
+	// 	// select * from sean;
+	// 	else if (C_TYPE::SPACE == t)
+	// 	{
+	// 		if (!currentStringValue.empty())
+	// 		{
+	// 			tokens.push_back(Token(keywordMap[toLowerCase(currentStringValue)], currentStringValue));
+	// 			this->currentStringValue.clear();
+	// 		}
+	// 		this->position++;
+	// 	}
+	// }
+	// for (auto &token : tokens)
+	// {
+	// 	std::cout << token.toString() << std::endl;
+	// }
 }

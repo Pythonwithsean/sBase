@@ -18,7 +18,8 @@ enum class C_TYPE
 {
 	CHAR,
 	NUM,
-	SPACE
+	SPACE,
+	SYMBOL
 };
 
 struct Token
