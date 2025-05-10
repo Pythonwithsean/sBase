@@ -4,6 +4,7 @@
 #include <Tokenizer.h>
 #include <ostream>
 #include <vector>
+#include "Helper.h"
 
 void printHelp()
 {
@@ -13,7 +14,6 @@ void printHelp()
 			  << "  -h, --help\t\tPrint this help message and exit\n"
 			  << "  -v, --version\t\tPrint version information and exit\n";
 }
-
 void printVersion()
 {
 	std::cout << "sBase 0.1.0\n"
@@ -35,7 +35,7 @@ enum class CommandType
 	UNKNOWN
 };
 
-CommandType inputToCommand(std::string &input)
+CommandType inputToCommand(std::string input)
 {
 	if (input == ".exit")
 		return CommandType::EXIT;
@@ -59,7 +59,7 @@ int main(int argc, char *argv[])
 		std::string input;
 		printPrompt();
 		std::getline(std::cin, input);
-		CommandType command = inputToCommand(input);
+		CommandType command = inputToCommand(toLowerCase(input));
 		switch (command)
 		{
 		case CommandType::EXIT:

@@ -1,6 +1,7 @@
 #ifndef Tokenizer_H
 #define Tokenizer_H
 #include <vector>
+#include <string>
 
 enum class TokenType
 {
@@ -10,40 +11,49 @@ enum class TokenType
 	STRING_LITERAL,
 	NUMBER_LITERAL,
 	COMMENT,
-	WHITESPACE,
-	SYMBOL
-};
-
-enum class C_TYPE
-{
-	CHAR,
-	NUM,
-	SPACE,
 	SYMBOL
 };
 
 struct Token
 {
+	std::string tokenTypeToString(TokenType tokenType)
+	{
+		switch (tokenType)
+		{
+		case TokenType::IDENTIFIER:
+			return "IDENTIFIER";
+		case TokenType::KEYWORD:
+			return "KEYWORD";
+		case TokenType::OPERATOR:
+			return "OPERATOR";
+		case TokenType::STRING_LITERAL:
+			return "STRING_LITERAL";
+		case TokenType::NUMBER_LITERAL:
+			return "NUMBER_LITERAL";
+		case TokenType::COMMENT:
+			return "COMMENT";
+		case TokenType::SYMBOL:
+			return "SYMBOL";
+		default:
+			return "UNKNOWN";
+		}
+	}
 	TokenType type;
 	std::string value;
 	Token(TokenType t, const std::string &v) : type(t), value(v) {}
 	std::string toString()
 	{
-		return "Value: " + value + " Type: " + std::to_string(static_cast<int>(type));
+		return "Token: " + tokenTypeToString(type) + ", Value: " + value;
 	}
 };
 
 class Tokenizer
 {
 private:
-	unsigned long int position;
-	std::string currentStringValue;
 	std::vector<Token> tokens;
 
 public:
-	Tokenizer() : position(0) {}
 	void tokenize(std::string &input);
-	C_TYPE readChar(char &c);
 };
 
 #endif // Tokenizer_H

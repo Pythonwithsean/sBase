@@ -15,5 +15,5 @@ clean:
 	rm -rf ./config/*
 	echo "Cleaned"
 
-$(objects): ./core/src/DB.cpp
-	echo Hello $(name) $?
+sean: ./core/src/DB.cpp
+	echo $(name) $^
