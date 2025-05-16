@@ -1,0 +1,2 @@
+Statement: create database <dbName> | create table <tableName> | insert values (values) into table | find * in table
+Statements: (Statement + ';')*

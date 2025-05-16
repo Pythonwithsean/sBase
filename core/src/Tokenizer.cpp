@@ -139,8 +139,17 @@ void Tokenizer::tokenize(std::string &input)
 			currentText += c;
 		}
 	}
+	if (!currentText.empty())
+	{
+		tokens.push_back(Token{getTokenType(currentText), currentText});
+		currentText.clear();
+	}
 	if (tokens.size() > 0)
 	{
+		for (Token &token : tokens)
+		{
+			std::cout << token.toString() << std::endl;
+		}
 		Parser parser(tokens);
 		parser.parse();
 	}
@@ -148,4 +157,9 @@ void Tokenizer::tokenize(std::string &input)
 	{
 		std::cout << "No tokens found" << std::endl;
 	}
+}
+
+std::vector<Token> Tokenizer::getTokens()
+{
+	return tokens;
 }

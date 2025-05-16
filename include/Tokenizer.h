@@ -14,8 +14,9 @@ enum class TokenType
 	SYMBOL
 };
 
-struct Token
+class Token
 {
+public:
 	std::string tokenTypeToString(TokenType tokenType)
 	{
 		switch (tokenType)
@@ -40,10 +41,19 @@ struct Token
 	}
 	TokenType type;
 	std::string value;
+	Token() : type(TokenType::SYMBOL), value("") {}
 	Token(TokenType t, const std::string &v) : type(t), value(v) {}
 	std::string toString()
 	{
 		return "Token: " + tokenTypeToString(type) + ", Value: " + value;
+	}
+	bool operator==(const Token &other) const
+	{
+		return this->type == other.type && this->value == other.value;
+	}
+	bool operator!=(const Token &other) const
+	{
+		return !(*this == other);
 	}
 };
 
@@ -54,6 +64,7 @@ private:
 
 public:
 	void tokenize(std::string &input);
+	std::vector<Token> getTokens();
 };
 
 #endif // Tokenizer_H

@@ -12,11 +12,12 @@ public:
 	Parser(std::vector<Token> &tokens);
 	Token getCurrent() const;
 	void next();
-	void previous();
-	void parse() const;
+	bool getNext() const;
+	void parse();
 	void printParsedData() const;
-	Token getPrevious() const;
-	Token getNext() const;
+	void parseCreateDatabase();
+	void parseCreate();
+	void parseCreateTable();
 };
 
 #endif // Parser_H
