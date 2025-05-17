@@ -116,7 +116,6 @@ void Tokenizer::tokenize(std::string &input)
 			if (c == ';')
 			{
 				tokens.push_back(Token{TokenType::SYMBOL, ";"});
-				break;
 			}
 			else if (c == '(')
 			{

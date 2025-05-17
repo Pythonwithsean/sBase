@@ -37,6 +37,16 @@ TEST_F(ParserTest, ValidCreateTable)
 	EXPECT_NO_THROW(parser.parse());
 }
 
+TEST_F(ParserTest, ValidCreateTableWithParentheses)
+{
+	std::string input = "CREATE TABLE testTable; CREATE TABLE testTable2;";
+	Tokenizer tokenizer;
+	tokenizer.tokenize(input);
+	std::vector<Token> tokens = tokenizer.getTokens();
+	Parser parser(tokens);
+	EXPECT_NO_THROW(parser.parse());
+}
+
 TEST_F(ParserTest, invalidSyntax2)
 {
 	std::string input = "CREATE DATBASE ;";
@@ -70,6 +80,16 @@ TEST_F(ParserTest, InvalidSyntax)
 TEST_F(ParserTest, EmptyInput)
 {
 	std::string input = "";
+	Tokenizer tokenizer;
+	tokenizer.tokenize(input);
+	std::vector<Token> tokens = tokenizer.getTokens();
+	Parser parser(tokens);
+	EXPECT_THROW(parser.parse(), std::runtime_error);
+}
+
+TEST_F(ParserTest, InvalidToken)
+{
+	std::string input = "CREATE DATABASE testDB; INVALID";
 	Tokenizer tokenizer;
 	tokenizer.tokenize(input);
 	std::vector<Token> tokens = tokenizer.getTokens();

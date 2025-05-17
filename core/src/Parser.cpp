@@ -6,7 +6,7 @@
 #include "Tokenizer.h"
 #include "Parser.h"
 
-using std::cout;
+using namespace std;
 
 Parser::Parser(std::vector<Token> &tokens)
 {
@@ -24,12 +24,18 @@ void Parser::next()
 	if (this->currentTokenPointer + 1 < this->tokens.size())
 	{
 		this->currentToken = &(this->tokens[++this->currentTokenPointer]);
+		return;
+	}
+	else
+	{
+		this->currentTokenPointer = this->tokens.size();
+		this->currentToken = nullptr;
 	}
 }
 
-bool Parser::getNext() const
+bool Parser::canGetNext() const
 {
-	return this->currentTokenPointer + 1 < this->tokens.size() - 1;
+	return this->currentTokenPointer < this->tokens.size();
 }
 
 void syntaxError(std::string errorMessage)
@@ -103,28 +109,24 @@ void Parser::parseCreate()
 	}
 }
 
-/**
- * This is the function that parses the tokens.
- * First Example
- * CREATE DATABASE testDB;
- *
- *
- */
 void Parser::parse()
 {
 	if (this->tokens.empty())
 	{
 		syntaxError("No tokens to parse");
 	}
-	switch (this->getCurrent().type)
+	while (this->canGetNext())
 	{
-	case TokenType::KEYWORD:
-		if (toLowerCase(this->getCurrent().value) == "create")
+		switch (this->getCurrent().type)
 		{
-			parseCreate();
+		case TokenType::KEYWORD:
+			if (toLowerCase(this->getCurrent().value) == "create")
+			{
+				parseCreate();
+			}
+			break;
+		default:
+			syntaxError("Expected keyword after start of parsing but got " + this->getCurrent().value + " index " + std::to_string(this->currentTokenPointer));
 		}
-		break;
-	default:
-		syntaxError("Expected keyword after start of parsing");
 	}
 };

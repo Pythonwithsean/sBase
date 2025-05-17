@@ -12,7 +12,7 @@ public:
 	Parser(std::vector<Token> &tokens);
 	Token getCurrent() const;
 	void next();
-	bool getNext() const;
+	bool canGetNext() const;
 	void parse();
 	void printParsedData() const;
 	void parseCreateDatabase();
