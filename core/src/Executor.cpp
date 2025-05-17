@@ -1,5 +1,5 @@
 #include <iostream>
 
-class CodeGeneration
+class Executor
 {
 };
