@@ -34,8 +34,7 @@ bool Parser::getNext() const
 
 void syntaxError(std::string errorMessage)
 {
-	std::cerr << "Syntax Error: " << errorMessage << std::endl;
-	exit(1);
+	throw std::runtime_error("Syntax Error: " + errorMessage);
 }
 
 void Parser::parseCreateDatabase()
@@ -44,13 +43,13 @@ void Parser::parseCreateDatabase()
 	if (this->getCurrent().type == TokenType::IDENTIFIER)
 	{
 		this->next();
-		if (this->getCurrent().type == TokenType::SYMBOL)
+		if (this->getCurrent().type == TokenType::SYMBOL && this->getCurrent().value == ";")
 		{
 			this->next();
 		}
 		else
 		{
-			syntaxError("Expected symbol after create database");
+			syntaxError("Expected symbol ';' after create database");
 		}
 	}
 	else
@@ -65,13 +64,13 @@ void Parser::parseCreateTable()
 	if (this->getCurrent().type == TokenType::IDENTIFIER)
 	{
 		this->next();
-		if (this->getCurrent().type == TokenType::SYMBOL)
+		if (this->getCurrent().type == TokenType::SYMBOL && this->getCurrent().value == ";")
 		{
 			this->next();
 		}
 		else
 		{
-			syntaxError("Expected symbol after create table");
+			syntaxError("Expected symbol ';' after create table");
 		}
 	}
 	else
@@ -113,7 +112,10 @@ void Parser::parseCreate()
  */
 void Parser::parse()
 {
-
+	if (this->tokens.empty())
+	{
+		syntaxError("No tokens to parse");
+	}
 	switch (this->getCurrent().type)
 	{
 	case TokenType::KEYWORD:
@@ -122,15 +124,7 @@ void Parser::parse()
 			parseCreate();
 		}
 		break;
-	case TokenType::IDENTIFIER:
-		break;
-	case TokenType::SYMBOL:
-		break;
-	case TokenType::NUMBER_LITERAL:
-		break;
-	case TokenType::STRING_LITERAL:
-		break;
 	default:
-		syntaxError("Expected keyword after create");
+		syntaxError("Expected keyword after start of parsing");
 	}
 };

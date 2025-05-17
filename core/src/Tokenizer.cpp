@@ -144,18 +144,18 @@ void Tokenizer::tokenize(std::string &input)
 		tokens.push_back(Token{getTokenType(currentText), currentText});
 		currentText.clear();
 	}
+
 	if (tokens.size() > 0)
 	{
-		for (Token &token : tokens)
+		try
 		{
-			std::cout << token.toString() << std::endl;
+			Parser parser(tokens);
+			parser.parse();
 		}
-		Parser parser(tokens);
-		parser.parse();
-	}
-	else
-	{
-		std::cout << "No tokens found" << std::endl;
+		catch (std::runtime_error &e)
+		{
+			cout << "Error: " << e.what() << "\n";
+		}
 	}
 }
 
