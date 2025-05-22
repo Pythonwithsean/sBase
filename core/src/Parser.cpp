@@ -19,6 +19,7 @@ Token Parser::getCurrent() const
 {
 	return *(this->currentToken);
 }
+
 void Parser::next()
 {
 	if (this->currentTokenPointer + 1 < this->tokens.size())
@@ -45,63 +46,84 @@ void syntaxError(std::string errorMessage)
 
 void Parser::parseCreateDatabase()
 {
-	this->next();
-	if (this->getCurrent().type == TokenType::IDENTIFIER)
-	{
-		this->next();
-		if (this->getCurrent().type == TokenType::SYMBOL && this->getCurrent().value == ";")
-		{
-			this->next();
-		}
-		else
-		{
-			syntaxError("Expected symbol ';' after create database");
-		}
-	}
-	else
+	if (!accept(TokenType::IDENTIFIER))
 	{
 		syntaxError("Expected identifier after create database");
 	}
+	this->next();
+	if (!accept(TokenType::SYMBOL, ";"))
+	{
+		syntaxError("Expected symbol ';' after create database");
+	}
+	this->next();
 }
 
 void Parser::parseCreateTable()
 {
-	this->next();
-	if (this->getCurrent().type == TokenType::IDENTIFIER)
+	acceptCurrentToken(TokenType::IDENTIFIER);
+	acceptCurrentToken(TokenType::SYMBOL, "(");
+	acceptCurrentToken(TokenType::IDENTIFIER);
+	acceptCurrentToken(TokenType::KEYWORD);
+	while (accept(TokenType::SYMBOL, ","))
 	{
 		this->next();
-		if (this->getCurrent().type == TokenType::SYMBOL && this->getCurrent().value == ";")
-		{
-			this->next();
-		}
-		else
-		{
-			syntaxError("Expected symbol ';' after create table");
-		}
+		acceptCurrentToken(TokenType::IDENTIFIER);
+		acceptCurrentToken(TokenType::KEYWORD);
+	}
+	acceptCurrentToken(TokenType::SYMBOL, ")");
+	acceptCurrentToken(TokenType::SYMBOL, ";");
+}
+
+bool Parser::isCurrentToken() const
+{
+	return this->currentToken != nullptr;
+}
+
+void Parser::acceptCurrentToken(TokenType type, std::string expectedValue)
+{
+	if (accept(type, expectedValue))
+	{
+		this->next();
 	}
 	else
 	{
-		syntaxError("Expected identifier after create table");
+		syntaxError("Expected " + expectedValue + " after " + convertTokenTypeToString(type));
+	}
+}
+
+bool Parser::accept(TokenType type, std::string expectedValue)
+{
+	return this->isCurrentToken() && this->getCurrent().type == type && toLowerCase(this->getCurrent().value) == expectedValue;
+}
+
+bool Parser::accept(TokenType type)
+{
+	return this->isCurrentToken() && this->getCurrent().type == type;
+}
+
+void Parser::acceptCurrentToken(TokenType type)
+{
+	if (accept(type))
+	{
+		this->next();
+	}
+	else
+	{
+		syntaxError("Expected " + convertTokenTypeToString(type) + " but got " + this->getCurrent().value);
 	}
 }
 
 void Parser::parseCreate()
 {
-	this->next();
-	if (this->getCurrent().type == TokenType::KEYWORD)
+	if (accept(TokenType::KEYWORD, "database"))
 	{
-		if (toLowerCase(this->getCurrent().value) == "database")
-		{
-			parseCreateDatabase();
-		}
-		else if (toLowerCase(this->currentToken->value) == "table")
-		{
-			parseCreateTable();
-		}
-		else
-		{
-			syntaxError("Expected database or table after create");
-		}
+		this->next();
+		parseCreateDatabase();
+	}
+	else if (accept(TokenType::KEYWORD, "table"))
+	{
+		this->next();
+		parseCreateTable();
 	}
 	else
 	{
@@ -111,19 +133,14 @@ void Parser::parseCreate()
 
 void Parser::parse()
 {
-	if (this->tokens.empty())
-	{
-		syntaxError("No tokens to parse");
-	}
-	while (this->canGetNext())
+
+	while (this->isCurrentToken())
 	{
 		switch (this->getCurrent().type)
 		{
 		case TokenType::KEYWORD:
-			if (toLowerCase(this->getCurrent().value) == "create")
-			{
-				parseCreate();
-			}
+			acceptCurrentToken(TokenType::KEYWORD, "create");
+			parseCreate();
 			break;
 		default:
 			syntaxError("Expected keyword after start of parsing but got " + this->getCurrent().value + " index " + std::to_string(this->currentTokenPointer));

@@ -9,6 +9,7 @@ common_sources := $(filter-out $(app_sources), $(wildcard ./core/src/*.cpp)) $(w
 .PHONY: build run test clean
 .SILENT:
 
+
 build:
 	echo "Compiling..."
 	g++ -std=c++23 $(sources) -g -O1 \

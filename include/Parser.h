@@ -18,6 +18,13 @@ public:
 	void parseCreateDatabase();
 	void parseCreate();
 	void parseCreateTable();
+	void parseArgs();
+	void parseArg();
+	bool isCurrentToken() const;
+	void acceptCurrentToken(TokenType type, std::string expectedValue);
+	void acceptCurrentToken(TokenType type);
+	bool accept(TokenType type, std::string expectedValue);
+	bool accept(TokenType type);
 };
 
 #endif // Parser_H
