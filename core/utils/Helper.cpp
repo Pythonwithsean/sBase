@@ -12,3 +12,18 @@ std::string toLowerCase(const std::string &str)
 	}
 	return result;
 }
+
+std::string convertTokenTypeToString(TokenType type)
+{
+	switch (type)
+	{
+	case TokenType::KEYWORD:
+		return "KEYWORD";
+	case TokenType::IDENTIFIER:
+		return "IDENTIFIER";
+	case TokenType::SYMBOL:
+		return "SYMBOL";
+	default:
+		return "UNKNOWN";
+	}
+}

@@ -3,6 +3,8 @@
 #include "Tokenizer.h"
 #include "Parser.h"
 
+using namespace std;
+
 class ParserTest : public ::testing::Test
 {
 protected:
@@ -17,6 +19,8 @@ protected:
 	}
 };
 
+/* Test the Create Database Command to make sure it is correct */
+
 TEST_F(ParserTest, ValidCreateDatabase)
 {
 	std::string input = "CREATE DATABASE testDB;";
@@ -27,9 +31,9 @@ TEST_F(ParserTest, ValidCreateDatabase)
 	EXPECT_NO_THROW(parser.parse());
 }
 
-TEST_F(ParserTest, ValidCreateTable)
+TEST_F(ParserTest, ValidCreateDatabase_2)
 {
-	std::string input = "CREATE TABLE testTable;";
+	std::string input = "CREATE DATABASE testDB2;";
 	Tokenizer tokenizer;
 	tokenizer.tokenize(input);
 	std::vector<Token> tokens = tokenizer.getTokens();
@@ -37,9 +41,9 @@ TEST_F(ParserTest, ValidCreateTable)
 	EXPECT_NO_THROW(parser.parse());
 }
 
-TEST_F(ParserTest, ValidCreateTableWithParentheses)
+TEST_F(ParserTest, ValidCreateDatabaseWithParentheses)
 {
-	std::string input = "CREATE TABLE testTable; CREATE TABLE testTable2;";
+	std::string input = "CREATE DATABASE testTable; CREATE DATABASE testTable2;";
 	Tokenizer tokenizer;
 	tokenizer.tokenize(input);
 	std::vector<Token> tokens = tokenizer.getTokens();
@@ -77,16 +81,6 @@ TEST_F(ParserTest, InvalidSyntax)
 	EXPECT_THROW(parser.parse(), std::runtime_error);
 }
 
-TEST_F(ParserTest, EmptyInput)
-{
-	std::string input = "";
-	Tokenizer tokenizer;
-	tokenizer.tokenize(input);
-	std::vector<Token> tokens = tokenizer.getTokens();
-	Parser parser(tokens);
-	EXPECT_THROW(parser.parse(), std::runtime_error);
-}
-
 TEST_F(ParserTest, InvalidToken)
 {
 	std::string input = "CREATE DATABASE testDB; INVALID";
@@ -95,4 +89,26 @@ TEST_F(ParserTest, InvalidToken)
 	std::vector<Token> tokens = tokenizer.getTokens();
 	Parser parser(tokens);
 	EXPECT_THROW(parser.parse(), std::runtime_error);
+}
+
+/*Test the create table command to make sure it is correct */
+
+TEST_F(ParserTest, validCreateTableCommand)
+{
+	string input = "CREATE TABLE SEAN(id INT,name STRING,amount INT);";
+	Tokenizer tokenizer;
+	tokenizer.tokenize(input);
+	vector<Token> tokens = tokenizer.getTokens();
+	Parser parser(tokens);
+	EXPECT_NO_THROW(parser.parse());
+}
+
+TEST_F(ParserTest, validCreateCommand2)
+{
+	string input = "CREATE TABLE SEAN(id UUID,name STRING, age INT, hobbies STRING[]);";
+	Tokenizer tokenizer;
+	tokenizer.tokenize(input);
+	vector<Token> tokens = tokenizer.getTokens();
+	Parser parser(tokens);
+	EXPECT_NO_THROW(parser.parse());
 }

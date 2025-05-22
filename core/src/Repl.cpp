@@ -5,6 +5,9 @@
 #include <ostream>
 #include <vector>
 #include "Helper.h"
+#include "Parser.h"
+
+using namespace std;
 
 void printHelp()
 {
@@ -96,7 +99,17 @@ int main(int argc, char *argv[])
 		case CommandType::UNKNOWN:
 			Tokenizer tokenizer;
 			tokenizer.tokenize(input);
-			break;
+			std::vector<Token> tokens = tokenizer.getTokens();
+			Parser parser(tokens);
+			try
+			{
+				if (tokens.size() > 0)
+					parser.parse();
+			}
+			catch (std::runtime_error &e)
+			{
+				cout << e.what() << endl;
+			}
 		}
 	}
 	return 0;

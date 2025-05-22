@@ -42,7 +42,7 @@
 #include "Helper.h"
 #include "Parser.h"
 
-using std::cout;
+using namespace std;
 
 std::unordered_map<std::string, TokenType> keywordMap = {
 	{"create", TokenType::KEYWORD},
@@ -60,6 +60,11 @@ std::unordered_map<std::string, TokenType> keywordMap = {
 	{"where", TokenType::KEYWORD},
 	{"into", TokenType::KEYWORD},
 	{"values", TokenType::KEYWORD},
+	{"int", TokenType::KEYWORD},
+	{"string", TokenType::KEYWORD},
+	{"uuid", TokenType::KEYWORD},
+	{"string[]", TokenType::KEYWORD},
+	{"int[]", TokenType::KEYWORD},
 };
 
 std::unordered_map<std::string, TokenType> symbolMap = {
@@ -142,19 +147,6 @@ void Tokenizer::tokenize(std::string &input)
 	{
 		tokens.push_back(Token{getTokenType(currentText), currentText});
 		currentText.clear();
-	}
-
-	if (tokens.size() > 0)
-	{
-		try
-		{
-			Parser parser(tokens);
-			parser.parse();
-		}
-		catch (std::runtime_error &e)
-		{
-			cout << "Error: " << e.what() << "\n";
-		}
 	}
 }
 
