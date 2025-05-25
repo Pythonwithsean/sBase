@@ -65,11 +65,12 @@ std::unordered_map<std::string, TokenType> keywordMap = {
 	{"uuid", TokenType::KEYWORD},
 	{"string[]", TokenType::KEYWORD},
 	{"int[]", TokenType::KEYWORD},
-};
+	{"use", TokenType::KEYWORD}};
 
 std::unordered_map<std::string, TokenType> symbolMap = {
 	{"(", TokenType::SYMBOL},
 	{")", TokenType::SYMBOL},
+	{"*", TokenType::SYMBOL},
 	{",", TokenType::SYMBOL},
 	{";", TokenType::SYMBOL},
 };

@@ -6,6 +6,8 @@
 #include <vector>
 #include "Helper.h"
 #include "Parser.h"
+#include "Context.h"
+#include "DBEngine.h"
 
 using namespace std;
 
@@ -57,6 +59,7 @@ int main(int argc, char *argv[])
 {
 	// printHelp();
 	bool RUN = true;
+	Context *context = new Context();
 	while (RUN)
 	{
 		std::string input;
@@ -100,17 +103,29 @@ int main(int argc, char *argv[])
 			Tokenizer tokenizer;
 			tokenizer.tokenize(input);
 			std::vector<Token> tokens = tokenizer.getTokens();
-			Parser parser(tokens);
-			try
-			{
-				if (tokens.size() > 0)
-					parser.parse();
-			}
-			catch (std::runtime_error &e)
-			{
-				cout << e.what() << endl;
-			}
+			// Parser parser(tokens);
+			// vector<Statement *> parsedStatements;
+			// try
+			// {
+			// 	if (tokens.size() > 0)
+			// 	{
+			// 		parser.parse();
+			// 		parsedStatements = parser.getParsedStatements();
+			// 		execute(parsedStatements, context);
+			// 		for (auto statement : parsedStatements)
+			// 		{
+			// 			delete statement;
+			// 		}
+			// 		parsedStatements.clear();
+			// 	}
+			// }
+			// catch (std::runtime_error &e)
+			// {
+			// 	cout << e.what() << endl;
+			// }
 		}
 	}
+	delete context;
+
 	return 0;
 }

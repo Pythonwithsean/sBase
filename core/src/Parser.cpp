@@ -5,6 +5,7 @@
 #include "Helper.h"
 #include "Tokenizer.h"
 #include "Parser.h"
+#include "Statement.h"
 
 using namespace std;
 
@@ -46,15 +47,18 @@ void syntaxError(std::string errorMessage)
 
 void Parser::parseCreateDatabase()
 {
+	std::string dbName;
 	if (!accept(TokenType::IDENTIFIER))
 	{
 		syntaxError("Expected identifier after create database");
 	}
+	dbName = this->getCurrent().value;
 	this->next();
 	if (!accept(TokenType::SYMBOL, ";"))
 	{
 		syntaxError("Expected symbol ';' after create database");
 	}
+	this->addStatement(new CreateDatabaseStatement(dbName));
 	this->next();
 }
 
@@ -131,6 +135,32 @@ void Parser::parseCreate()
 	}
 }
 
+std::vector<Statement *> Parser::getParsedStatements() const
+{
+	return this->parsedStatements;
+}
+
+void Parser::addStatement(Statement *statement)
+{
+	this->parsedStatements.push_back(statement);
+}
+
+void Parser::parseUse()
+{
+	if (!accept(TokenType::IDENTIFIER))
+	{
+		syntaxError("Expected identifier after use");
+	}
+	std::string dbName = this->getCurrent().value;
+	this->next();
+	if (!accept(TokenType::SYMBOL, ";"))
+	{
+		syntaxError("Expected symbol ';' after use");
+	}
+	addStatement(new useDatabaseStatement(dbName));
+	this->next();
+}
+
 void Parser::parse()
 {
 
@@ -139,8 +169,21 @@ void Parser::parse()
 		switch (this->getCurrent().type)
 		{
 		case TokenType::KEYWORD:
-			acceptCurrentToken(TokenType::KEYWORD, "create");
-			parseCreate();
+			if (toLowerCase(this->getCurrent().value) == "create")
+			{
+				acceptCurrentToken(TokenType::KEYWORD, "create");
+				parseCreate();
+			}
+			else if (toLowerCase(this->getCurrent().value) == "use")
+			{
+				acceptCurrentToken(TokenType::KEYWORD, "use");
+				parseUse();
+			}
+			else
+			{
+				this->next();
+			}
+
 			break;
 		default:
 			syntaxError("Expected keyword after start of parsing but got " + this->getCurrent().value + " index " + std::to_string(this->currentTokenPointer));
